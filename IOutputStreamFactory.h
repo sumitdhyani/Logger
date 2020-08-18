@@ -16,6 +16,8 @@ DEFINE_PTR(IOutputStreamFactory)
 class DefaultutputStreamFactory : public IOutputStreamFactory
 {
 	std::function<std::string()> m_timestampfetcher;
+	IOutputStream_SPtr m_consoleDecorator;
+	IOutputStream_SPtr m_fileDecorator;
 public:
 	DefaultutputStreamFactory(std::function<std::string()> timestampfetcher = []() {
 																					boost::posix_time::ptime timeLocal = boost::posix_time::microsec_clock::local_time();
@@ -37,10 +39,18 @@ public:
 		if (loggingLevel >= configuredLoggingLevel)
 		{
 			if (consoleLogging)
-				retVal = IOutputStream_SPtr(new ConsoleOutputStreamDecorator(retVal, loggingLevel, m_timestampfetcher, title));
+			{
+				if (!m_consoleDecorator)
+					m_consoleDecorator = std::make_shared<ConsoleOutputStreamDecorator>(retVal, loggingLevel, m_timestampfetcher, title);
+				retVal = m_consoleDecorator;
+			}
 
 			if (fileLogging)
-				retVal = IOutputStream_SPtr(new FileOutputStreamDecorator(retVal, loggingLevel, m_timestampfetcher, title));
+			{
+				if(!m_fileDecorator)
+					m_fileDecorator = std::make_shared<ConsoleOutputStreamDecorator>(retVal, loggingLevel, m_timestampfetcher, title);
+				retVal = m_fileDecorator;
+			}
 		}
 
 		return retVal;

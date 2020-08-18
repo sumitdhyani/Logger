@@ -18,10 +18,10 @@
 namespace logging = boost::log;
 namespace src = boost::log::sources;
 namespace keywords = boost::log::keywords;
-src::severity_logger_mt<LoggingLevel> lg;
 	
 class FileOutputStreamDecorator : public IOutputStream, public std::enable_shared_from_this<FileOutputStreamDecorator>
 {
+	src::severity_logger_mt<LoggingLevel> lg;
 	IOutputStream_SPtr m_parent;
 	LoggingLevel m_loggingLvl;
 	std::ostringstream m_stream;
