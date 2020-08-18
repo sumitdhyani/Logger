@@ -1,6 +1,25 @@
 #pragma once
-#include "IOutputStream.h"
+#include <thread>
+#include <boost/log/core.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/utility/setup/file.hpp>
+
+#include <boost/move/utility.hpp>
+#include <boost/log/sources/logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/sources/global_logger_storage.hpp>
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
 #include <sstream>
+#include "LoggerCommon.h"
+#include "IOutputStream.h"
+
+namespace logging = boost::log;
+namespace src = boost::log::sources;
+namespace keywords = boost::log::keywords;
+src::severity_logger_mt<LoggingLevel> lg;
+	
 class FileOutputStreamDecorator : public IOutputStream, public std::enable_shared_from_this<FileOutputStreamDecorator>
 {
 	IOutputStream_SPtr m_parent;
@@ -10,16 +29,56 @@ class FileOutputStreamDecorator : public IOutputStream, public std::enable_share
 	std::string m_title;
 
 public:
-	FileOutputStreamDecorator(IOutputStream_SPtr parent, LoggingLevel loggingLvl, std::function<std::string()> timestampFetcher, std::string title);
+	FileOutputStreamDecorator(IOutputStream_SPtr parent, LoggingLevel loggingLvl, std::function<std::string()> timestampFetcher, std::string title) :
+		m_parent(parent),
+		m_loggingLvl(loggingLvl),
+		m_timestampfetcher(timestampFetcher),
+		m_title(title)
+	{
+	}
+	IOutputStream& operator <<(std::string str)
+	{
+		*m_parent << str;
+		m_stream << str;
+		return *this;
+	}
 
-	virtual IOutputStream& operator <<(std::string str);
+	IOutputStream& operator <<(const char* str)
+	{
+		*m_parent << str;
+		m_stream << str;
+		return *this;
+	}
 
-	virtual IOutputStream& operator <<(const char* str);
+	IOutputStream& operator <<(int n)
+	{
+		*m_parent << n;
+		m_stream << n;
+		return *this;
+	}
 
-	virtual IOutputStream& operator <<(int n);
+	IOutputStream& operator <<(long n)
+	{
+		*m_parent << n;
+		m_stream << n;
+		return *this;
+	}
 
-	virtual IOutputStream& operator <<(long n);
-
-	virtual ~FileOutputStreamDecorator();
+	~FileOutputStreamDecorator()
+	{
+		try
+		{
+			std::string logString = m_stream.str();
+			if (0 < logString.length())
+			{
+				std::ostringstream prefixStream;
+				prefixStream << m_timestampfetcher() << "|" << m_title << "(" << std::this_thread::get_id() << ")|" << enumToStrLoggingLevel(m_loggingLvl) << "|";
+				BOOST_LOG_SEV(lg, m_loggingLvl) << prefixStream.str() << logString;
+			}
+		}
+		catch (...)
+		{
+		}
+	}
 };
 
