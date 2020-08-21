@@ -1,7 +1,7 @@
 #pragma once
-#include "IOutputStream.h"
-#include "ConsoleOutputStreamDecorator.h"
-#include "FileOutputStreamDecorator.h"
+#include "IOutputStream.hpp"
+#include "ConsoleOutputStreamDecorator.hpp"
+#include "FileOutputStreamDecorator.hpp"
 #include <boost/date_time.hpp>
 
 

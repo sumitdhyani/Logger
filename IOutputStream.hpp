@@ -1,5 +1,5 @@
 #pragma once
-#include "LoggerCommon.h"
+#include "LoggerCommon.hpp"
 class IOutputStream;
 
 class IOutputStream

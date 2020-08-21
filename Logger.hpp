@@ -1,7 +1,7 @@
 #pragma once
-#include "ILogger.h"
-#include "IOutputStream.h"
-#include "IOutputStreamFactory.h"
+#include "ILogger.hpp"
+#include "IOutputStream.hpp"
+#include "IOutputStreamFactory.hpp"
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>

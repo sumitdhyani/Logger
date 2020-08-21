@@ -12,8 +12,8 @@
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <sstream>
-#include "LoggerCommon.h"
-#include "IOutputStream.h"
+#include "LoggerCommon.hpp"
+#include "IOutputStream.hpp"
 
 namespace logging = boost::log;
 namespace src = boost::log::sources;

@@ -1,5 +1,5 @@
 #pragma once
-#include "ILogger.h"
+#include "ILogger.hpp"
 #include <iostream>
 #include <thread>
 #include <sstream>

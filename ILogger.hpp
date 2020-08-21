@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "LoggerCommon.h"
-#include "IOutputStream.h"
+#include "LoggerCommon.hpp"
+#include "IOutputStream.hpp"
 
 
 class ILogger;
