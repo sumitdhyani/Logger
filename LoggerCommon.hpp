@@ -1,5 +1,5 @@
 #pragma once
-#include <CommonUtils/CommonDefs.h>
+#include <CommonUtils/CommonDefs.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
