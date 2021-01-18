@@ -2,6 +2,7 @@
 #include "ILogger.hpp"
 #include "IOutputStream.hpp"
 #include "IOutputStreamFactory.hpp"
+#include "LoggerCommon.hpp"
 
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
