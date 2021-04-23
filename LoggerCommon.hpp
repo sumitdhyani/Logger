@@ -18,7 +18,7 @@
 #include <algorithm>
 namespace logging = boost::log;
 
-enum LoggingLevel
+enum class LoggingLevel
 {
 	trace,
 	debug,
@@ -39,17 +39,17 @@ inline LoggingLevel strToEnumLoggingLevel(std::string loggingLevel)
 {
 	std::transform(loggingLevel.begin(), loggingLevel.end(), loggingLevel.begin(), ::tolower);
 	if (loggingLevel == traceStr)
-		return trace;
+		return LoggingLevel::trace;
 	else if (loggingLevel == debugStr)
-		return debug;
+		return LoggingLevel::debug;
 	else if (loggingLevel == infoStr)
-		return info;
+		return LoggingLevel::info;
 	else if (loggingLevel == warningStr)
-		return warning;
+		return LoggingLevel::warning;
 	else if (loggingLevel == errorStr)
-		return error;
+		return LoggingLevel::error;
 	else if (loggingLevel == fatalStr)
-		return fatal;
+		return LoggingLevel::fatal;
 	else
 		throw std::runtime_error("Invalid error level set");
 }
@@ -58,17 +58,17 @@ inline std::string enumToStrLoggingLevel(LoggingLevel loggingLvl)
 {
 	switch (loggingLvl)
 	{
-	case trace:
+	case LoggingLevel::trace:
 		return traceStr;
-	case debug:
+	case LoggingLevel::debug:
 		return debugStr;
-	case info:
+	case LoggingLevel::info:
 		return infoStr;
-	case warning:
+	case LoggingLevel::warning:
 		return warningStr;
-	case error:
+	case LoggingLevel::error:
 		return errorStr;
-	case fatal:
+	case LoggingLevel::fatal:
 		return fatalStr;
 	default:
 		throw std::runtime_error("Invalid argument");
