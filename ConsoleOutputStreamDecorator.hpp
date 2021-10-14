@@ -13,7 +13,7 @@ class ConsoleOutputStreamDecorator : public IOutputStream, public std::enable_sh
 	std::string m_title;
 
 public:
-	ConsoleOutputStreamDecorator::ConsoleOutputStreamDecorator(IOutputStream_SPtr parent, LoggingLevel loggingLvl, std::function<std::string()> timestampFetcher, std::string title) :
+	ConsoleOutputStreamDecorator(IOutputStream_SPtr parent, LoggingLevel loggingLvl, std::function<std::string()> timestampFetcher, std::string title) :
 		m_parent(parent),
 		m_loggingLvl(loggingLvl),
 		m_timestampfetcher(timestampFetcher),
