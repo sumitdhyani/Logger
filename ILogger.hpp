@@ -12,6 +12,8 @@ class ILogger
 public:
 	virtual IOutputStream_SPtr operator ()(LoggingLevel loggingLevel, std::string title) = 0;
 
+	virtual LoggingLevel getLoggingLevel() = 0;
+
 	virtual ~ILogger() {}
 };
 

@@ -71,11 +71,18 @@ public:
 		return m_outputStreamFactory->getOutputStream(m_consoleLogging, m_fileLogging, m_loggingLvl,loggingLevel, title);
 	}
 
+	virtual LoggingLevel getLoggingLevel()
+	{
+		return m_loggingLvl;
+	}
+
 	~DefaultLogger() {}
 };
 
-#define LOG(logger, level)\
-*((*logger)(level, ""))
+#define LOG(logger, level, logMsg)\
+if( logger->getLoggingLevel() >= level)\
+	*((*logger)(level, "")) << logMsg;
 
-#define LOG_WITH_TITLE(logger, level, title)\
-*((*logger)(level, title))
+#define LOG_WITH_TITLE(logger, level, title, logMsg)\
+if( logger->getLoggingLevel() >= level)\
+	*((*logger)(level, title)) << logMsg;
